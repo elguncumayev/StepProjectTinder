@@ -10,7 +10,7 @@ public class TinderApp {
     Server server = new Server(8080);
     ServletContextHandler handler = new ServletContextHandler();
 
-    TemplateEngine engine = TemplateEngine.folder("\\content");
+    TemplateEngine engine = TemplateEngine.folder("content");
 
     handler.addServlet(new ServletHolder(new StaticServlet("js")), "/js/*");
     handler.addServlet(new ServletHolder(new StaticServlet("css")), "/css/*");
