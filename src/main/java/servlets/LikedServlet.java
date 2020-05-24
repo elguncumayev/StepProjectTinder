@@ -23,6 +23,16 @@ public class LikedServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    throw new RuntimeException("Not implemented");
+    Optional<Cookie> sign = Arrays.stream(req.getCookies())
+            .filter(cookie -> cookie.getName().equals("sign"))
+            .findFirst();
+    if (!sign.isPresent()) {
+      resp.sendRedirect("/login");
+      return;
+    }
+    HashMap<String, Object> data = new HashMap<>();
+    List<User> users = userService.likedPeople(Integer.parseInt(sign.get().getValue()));
+    data.put("users",users);
+    engine.render("people-list.ftl", data, resp);
   }
 }
