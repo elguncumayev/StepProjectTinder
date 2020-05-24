@@ -15,7 +15,30 @@ public class DAOMessagesSql implements DAO<Message> {
 
   @Override
   public Collection<Message> getBySQLQuery(String query) {
-    throw new RuntimeException("Not implemented");
+
+    try {
+      Connection conn = DriverManager.getConnection(URL, UNAME, PWD);
+      PreparedStatement stmt = conn.prepareStatement(query);
+      ResultSet rSet = stmt.executeQuery();
+      ArrayList<Message> messages = new ArrayList<>();
+      while (rSet.next()) {
+        int ID = rSet.getInt("id");
+        String text = rSet.getString("text");
+        int from = rSet.getInt("from");
+        int to = rSet.getInt("to");
+        String time = rSet.getString("time");
+        messages.add(new Message(
+                ID,
+                from,
+                to,
+                text,
+                LocalDateTime.parse(time)
+        ));
+      }
+      return messages;
+    } catch (SQLException e) {
+      return new ArrayList<>();
+    }
   }
 
   @Override

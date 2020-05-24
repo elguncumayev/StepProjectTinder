@@ -24,11 +24,39 @@ public class UsersServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    throw new RuntimeException("Not implemented");
+    Optional<Cookie> sign = Arrays.stream(req.getCookies())
+            .filter(cookie -> cookie.getName().equals("sign"))
+            .findFirst();
+    if (!sign.isPresent()) {
+      resp.sendRedirect("/login");
+      return;
+    }
+    try {
+      User user = userService.randomUser(Integer.parseInt(sign.get().getValue()));
+      HashMap<String, Object> data = new HashMap<>();
+      this.choosesUserId = user.getId();
+      String name = user.getFullName();
+      String image = user.getPhoto();
+      data.put("username", name);
+      data.put("image", image);
+      engine.render("like-page.ftl", data, resp);
+    } catch (Exception e) {
+      resp.sendRedirect("/liked");
+    }
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    throw new RuntimeException("Not implemented");
+    Optional<Cookie> sign = Arrays.stream(req.getCookies())
+            .filter(cookie -> cookie.getName().equals("sign"))
+            .findFirst();
+    if (!sign.isPresent()) {
+      resp.sendRedirect("/login");
+      return;
+    }
+    String like = req.getParameter("like");
+    if (!userService.relationInteraction(Integer.parseInt(sign.get().getValue()), this.choosesUserId, like != null)) {
+      resp.sendRedirect("/liked");
+    } else resp.sendRedirect("/users");
   }
 }

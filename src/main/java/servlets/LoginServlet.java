@@ -20,11 +20,30 @@ public class LoginServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    throw new RuntimeException("Not implemented");
+    data.put("message", "");
+    engine.render("login.ftl", data, resp);
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    throw new RuntimeException("Not implemented");
+    String email = req.getParameter("email");
+    email = String.join("-", email.split("@"));
+    String password = req.getParameter("password");
+    if (!userService.containsMail(email)) {
+      data.put("message", "User is not found!");
+      engine.render("login.ftl", data, resp);
+      return;
+    }
+    if (!userService.checkPass(email, password)) {
+      data.put("message", "Password is not correct!");
+      engine.render("login.ftl", data, resp);
+      return;
+    }
+    int id = userService.getUserID(email);
+    Cookie cookie = new Cookie("sign", String.valueOf(id));
+    cookie.setMaxAge(6 * 60 * 60);
+    resp.addCookie(cookie);
+    userService.setLoginTime(id);
+    resp.sendRedirect("/users");
   }
 }

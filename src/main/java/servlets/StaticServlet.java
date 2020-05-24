@@ -17,6 +17,11 @@ public class StaticServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    throw new RuntimeException("Not implemented");
+    String filename = req.getPathInfo();
+    String osFileLocation = "content";
+    Path path = Paths.get(osFileLocation, subPath, filename);
+    try (OutputStream os = resp.getOutputStream()) {
+      Files.copy(path, os);
+    }
   }
 }
