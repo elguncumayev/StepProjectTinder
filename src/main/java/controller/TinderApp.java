@@ -15,7 +15,7 @@ public class TinderApp {
     );
 
 
-    Server server = new Server(Integer.parseInt(System.getenv("8080")));
+    Server server = new Server(Integer.parseInt(System.getenv("PORT")));
     ServletContextHandler handler = new ServletContextHandler();
 
     TemplateEngine engine = TemplateEngine.folder("content");
