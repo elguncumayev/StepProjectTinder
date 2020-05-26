@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class DAOUsersSql implements DAO<User> {
   private final String defaultPhoto = "https://www.logolynx.com/images/logolynx/s_cb/cbd29542455b9e0cc175289ff24cecaa.jpeg";
-  private final static String URL = System.getenv("DATABASE_URL");
+  private final static String URL = System.getenv("dburi");
   private final static String UNAME = System.getenv("user");
   private final static String PWD = System.getenv("password");
 

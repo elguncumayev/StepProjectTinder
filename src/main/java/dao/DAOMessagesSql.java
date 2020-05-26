@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 public class DAOMessagesSql implements DAO<Message> {
-  private final static String URL = System.getenv("DATABASE_URL");
+  private final static String URL = System.getenv("dburi");
   private final static String UNAME = System.getenv("user");
   private final static String PWD = System.getenv("password");
 

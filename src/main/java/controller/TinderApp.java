@@ -9,7 +9,7 @@ import servlets.*;
 public class TinderApp {
   public void start() throws Exception {
     DbSetup.prepare(
-            System.getenv("DATABASE_URL"),
+            System.getenv("dburi"),
             System.getenv("user"),
             System.getenv("password")
     );
