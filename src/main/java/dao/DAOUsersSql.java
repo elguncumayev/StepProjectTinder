@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public class DAOUsersSql implements DAO<User> {
   private final String defaultPhoto = "https://www.logolynx.com/images/logolynx/s_cb/cbd29542455b9e0cc175289ff24cecaa.jpeg";
-  private final static String URL = "jdbc:postgresql://localhost:5432/postgres";
-  private final static String UNAME = "postgres";
-  private final static String PWD = "cumayev_99";
+  private final static String URL = "jdbc:postgresql://ec2-54-175-117-212.compute-1.amazonaws.com:5432/d79jffpio67dv9";
+  private final static String UNAME = "ckvmkqdphiyopg";
+  private final static String PWD = "6b84718fa2f3e1e6abc22554c3e8796d6d25c93584381a5e02b36bf79e9b42ee";
 
 //  @Override
 //  public Collection<User> getAll() {
