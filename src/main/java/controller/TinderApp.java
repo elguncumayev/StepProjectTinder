@@ -9,9 +9,9 @@ import servlets.*;
 public class TinderApp {
   public void start() throws Exception {
     DbSetup.prepare(
-            "jdbc:postgresql://ec2-54-175-117-212.compute-1.amazonaws.com:5432/d79jffpio67dv9",
-            "ckvmkqdphiyopg",
-            "6b84718fa2f3e1e6abc22554c3e8796d6d25c93584381a5e02b36bf79e9b42ee"
+            System.getenv("DATABASE_URL"),
+            System.getenv("user"),
+            System.getenv("password")
     );
 
 
