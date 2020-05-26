@@ -31,6 +31,7 @@ public class DAOUsersSql implements DAO<User> {
       Connection conn = DriverManager.getConnection(URL, UNAME, PWD);
       PreparedStatement stmt = conn.prepareStatement(query);
       ResultSet rSet = stmt.executeQuery();
+      conn.close();
       return rSet.next();
     } catch (SQLException e) {
       return false;
@@ -54,6 +55,7 @@ public class DAOUsersSql implements DAO<User> {
       PreparedStatement stmt = conn.prepareStatement(query);
       ResultSet rSet = stmt.executeQuery();
       rSet.next();
+      conn.close();
       return rSet.getInt("id");
     } catch (SQLException e) {
       return -1;
@@ -74,6 +76,7 @@ public class DAOUsersSql implements DAO<User> {
       String lastLogin = rSet.getString("lastLogin");
       Optional<String> workInfo = Optional.ofNullable(rSet.getString("workInfo"));
       Optional<String> prof_photo = Optional.ofNullable(rSet.getString("prof_photo"));
+      conn.close();
       return Optional.of(new User(
               ID,
               username,
@@ -93,6 +96,7 @@ public class DAOUsersSql implements DAO<User> {
       Connection conn = DriverManager.getConnection(URL, UNAME, PWD);
       PreparedStatement stmt = conn.prepareStatement(query);
       stmt.execute();
+      conn.close();
       return true;
     } catch (SQLException e) {
       return false;
@@ -119,6 +123,7 @@ public class DAOUsersSql implements DAO<User> {
               prof_photo.orElse(defaultPhoto)
       ));
     }
+    conn.close();
     return users;
   }
 }

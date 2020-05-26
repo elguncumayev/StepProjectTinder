@@ -35,6 +35,7 @@ public class DAOMessagesSql implements DAO<Message> {
                 LocalDateTime.parse(time)
         ));
       }
+      conn.close();
       return messages;
     } catch (SQLException e) {
       return new ArrayList<>();
