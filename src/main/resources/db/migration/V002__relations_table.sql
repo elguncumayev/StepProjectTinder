@@ -14,7 +14,5 @@ create table relations
 		unique ("from", "to")
 );
 
-alter table relations owner to postgres;
-
 create unique index relations_id_uindex
 	on relations (id);

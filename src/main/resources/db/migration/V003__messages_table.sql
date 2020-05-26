@@ -13,7 +13,5 @@ create table messages
 	time varchar not null
 );
 
-alter table messages owner to postgres;
-
 create unique index messages_id_uindex
 	on messages (id);

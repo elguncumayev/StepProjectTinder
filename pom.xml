@@ -56,6 +56,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>6.4.2</version>
+        </dependency>
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>

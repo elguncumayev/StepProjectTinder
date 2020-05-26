@@ -11,7 +11,5 @@ create table users
 	prof_photo varchar
 );
 
-alter table relations owner to postgres;
-
 create unique index users_id_uindex
 	on users (id);
