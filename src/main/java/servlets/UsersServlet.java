@@ -30,7 +30,7 @@ public class UsersServlet extends HttpServlet {
             .filter(cookie -> cookie.getName().equals("sign"))
             .findFirst().get();
     try {
-      String[] split = req.getPathInfo().split("/");
+      String[] split = req.getRequestURI().split("/");
       User user;
       if (split.length >= 3) {
         Optional<User> optionalUser = userService.getUser(Integer.parseInt(split[2]));
@@ -60,6 +60,9 @@ public class UsersServlet extends HttpServlet {
       engine.render("like-page.ftl", data, resp);
     } catch (NumberFormatException ex) {
       resp.sendError(404);
+    }
+    catch (Exception e){
+      resp.sendRedirect("/liked");
     }
   }
 
