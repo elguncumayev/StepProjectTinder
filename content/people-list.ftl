@@ -19,6 +19,7 @@
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
+                <a href="/logout">Logout</a>
             <div class="panel panel-default user_panel">
                 <div class="panel-heading">
                     <h3 class="panel-title">User List</h3>

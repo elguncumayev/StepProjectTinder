@@ -1,5 +1,6 @@
 package servlets;
 
+import services.EncodeDecode;
 import services.UserService;
 
 import javax.servlet.http.Cookie;
@@ -40,7 +41,9 @@ public class LoginServlet extends HttpServlet {
       return;
     }
     int id = userService.getUserID(email);
-    Cookie cookie = new Cookie("sign", String.valueOf(id));
+    EncodeDecode eD = new EncodeDecode();
+    String e_ed = eD.encrypt(String.valueOf(id));
+    Cookie cookie = new Cookie("sign", String.valueOf(e_ed));
     cookie.setMaxAge(6 * 60 * 60);
     resp.addCookie(cookie);
     userService.setLoginTime(id);

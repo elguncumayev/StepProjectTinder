@@ -1,6 +1,7 @@
 package servlets;
 
 import entity.User;
+import services.EncodeDecode;
 import services.UserService;
 
 import javax.servlet.http.Cookie;
@@ -15,6 +16,7 @@ import java.util.List;
 public class LikedServlet extends HttpServlet {
   private final TemplateEngine engine;
   private final UserService userService = new UserService();
+  private final EncodeDecode eD = new EncodeDecode();
 
   public LikedServlet(TemplateEngine engine) {
     this.engine = engine;
@@ -27,7 +29,7 @@ public class LikedServlet extends HttpServlet {
             .findFirst()
             .get();
     HashMap<String, Object> data = new HashMap<>();
-    List<User> users = userService.likedPeople(Integer.parseInt(sign.getValue()));
+    List<User> users = userService.likedPeople(Integer.parseInt(eD.decrypt(sign.getValue())));
     data.put("users",users);
     engine.render("people-list.ftl", data, resp);
   }

@@ -1,6 +1,7 @@
 package servlets;
 
 import entity.User;
+import services.EncodeDecode;
 import services.UserService;
 
 import javax.servlet.http.Cookie;
@@ -17,6 +18,7 @@ public class UsersServlet extends HttpServlet {
 
   private final TemplateEngine engine;
   private final UserService userService = new UserService();
+  private final EncodeDecode eD = new EncodeDecode();
 
   public UsersServlet(TemplateEngine engine) {
     this.engine = engine;
@@ -39,7 +41,7 @@ public class UsersServlet extends HttpServlet {
           user = optionalUser.get();
         }
       } else {
-        Optional<User> randomUser = userService.randomUser(Integer.parseInt(sign.getValue()));
+        Optional<User> randomUser = userService.randomUser(Integer.parseInt(eD.decrypt(sign.getValue())));
         if (!randomUser.isPresent()) {
           try (PrintWriter w = resp.getWriter()) {
             w.write("There is not any user in system.");
@@ -71,7 +73,7 @@ public class UsersServlet extends HttpServlet {
             .get();
     String like = req.getParameter("like");
     String[] split = req.getPathInfo().split("/");
-    if (!userService.relationInteraction(Integer.parseInt(sign.getValue()), Integer.parseInt(split[2]), like != null)) {
+    if (!userService.relationInteraction(Integer.parseInt(eD.decrypt(sign.getValue())), Integer.parseInt(split[2]), like != null)) {
       resp.sendRedirect("/liked");
     } else resp.sendRedirect("/users");
   }

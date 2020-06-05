@@ -2,6 +2,7 @@ package servlets;
 
 import entity.Message;
 import entity.User;
+import services.EncodeDecode;
 import services.UserService;
 
 import javax.servlet.http.Cookie;
@@ -15,6 +16,7 @@ import java.util.*;
 public class MessagesServlet extends HttpServlet {
   private final UserService userService = new UserService();
   private final TemplateEngine engine;
+  private final EncodeDecode eD = new EncodeDecode();
 
   public MessagesServlet(TemplateEngine engine) {
     this.engine = engine;
@@ -32,7 +34,7 @@ public class MessagesServlet extends HttpServlet {
       resp.sendRedirect("/liked");
       return;
     }
-    if(!userService.containsRel(Integer.parseInt(sign.getValue()),Integer.parseInt(split[2]))){
+    if(!userService.containsRel(Integer.parseInt(eD.decrypt(sign.getValue())),Integer.parseInt(split[2]))){
       try (PrintWriter w = resp.getWriter()) {
         w.write("You can send message when both of you like each other!");
         return;
@@ -92,7 +94,7 @@ public class MessagesServlet extends HttpServlet {
       resp.sendRedirect(String.format("/messages/%s",id));
       return;
     }
-    userService.sendMessage(Integer.parseInt(sign.getValue()),id,text);
+    userService.sendMessage(Integer.parseInt(eD.decrypt(sign.getValue())),id,text);
     resp.sendRedirect(String.format("/messages/%s",id));
   }
 }

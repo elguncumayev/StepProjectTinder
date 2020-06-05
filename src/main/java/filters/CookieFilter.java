@@ -16,7 +16,7 @@ public class CookieFilter implements Filter {
     Cookie[] cookies = req.getCookies();
     if (cookies == null) return false;
     for (Cookie c: cookies) {
-      if (c.getName().equals("sign") && c.getValue().matches("[0-9]+")) {
+      if (c.getName().equals("sign")) {
         return true;
       }
     }

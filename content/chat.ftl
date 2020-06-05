@@ -20,7 +20,7 @@
 <div class="container">
     <div class="row">
         <div class="chat-main col-6 offset-3">
-
+            <a href="/logout">Logout</a>
             <div class="col-md-12 chat-header">
                 <div class="row header-one text-white p-1">
                     <div class="col-md-6 name pl-2">
