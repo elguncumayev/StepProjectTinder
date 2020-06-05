@@ -29,15 +29,16 @@ public class TinderApp {
     handler.addServlet(new ServletHolder(new StaticServlet("js")), "/js/*");
     handler.addServlet(new ServletHolder(new StaticServlet("css")), "/css/*");
     handler.addServlet(new ServletHolder(new UsersServlet(engine)), "/users");
+    handler.addServlet(new ServletHolder(new UsersServlet(engine)), "/users/*");
     handler.addServlet(new ServletHolder(new LikedServlet(engine)), "/liked");
     handler.addServlet(new ServletHolder(new MessagesServlet(engine)), "/messages/*");
     handler.addServlet(new ServletHolder(new LoginServlet(engine)), "/login");
     handler.addServlet(new ServletHolder(new LogoutServlet()), "/logout");
     handler.addServlet(new ServletHolder(new RedirectServlet("/login")), "/*");
 
-//    handler.addFilter(CookieFilter.class, "/messages", EnumSet.of(DispatcherType.REQUEST));
-//    handler.addFilter(CookieFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
-//    handler.addFilter(CookieFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
+    handler.addFilter(CookieFilter.class, "/messages", EnumSet.of(DispatcherType.REQUEST));
+    handler.addFilter(CookieFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
+    handler.addFilter(CookieFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
     handler.addFilter(UsersFilter.class,"/users",EnumSet.of(DispatcherType.REQUEST));
     handler.addFilter(MessagesFilter.class,"/messages",EnumSet.of(DispatcherType.REQUEST));
 
