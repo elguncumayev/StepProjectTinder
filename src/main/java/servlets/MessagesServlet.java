@@ -28,7 +28,7 @@ public class MessagesServlet extends HttpServlet {
             .filter(cookie -> cookie.getName().equals("sign"))
             .findFirst()
             .get();
-    String[] split = req.getRequestURI().split("/");
+    String[] split = req.getPathInfo().split("/");
     String idS = split[1];
     if (idS == null ) {
       resp.sendRedirect("/liked");
@@ -87,8 +87,8 @@ public class MessagesServlet extends HttpServlet {
             .filter(cookie -> cookie.getName().equals("sign"))
             .findFirst()
             .get();
-    String[] split = req.getRequestURI().split("/");
-    int id = Integer.parseInt(split[2]);
+    String[] split = req.getPathInfo().split("/");
+    int id = Integer.parseInt(split[1]);
     String text = req.getParameter("message");
     if(text == null || text.matches("[\\s]") || text.isEmpty()) {
       resp.sendRedirect(String.format("/messages/%s",id));

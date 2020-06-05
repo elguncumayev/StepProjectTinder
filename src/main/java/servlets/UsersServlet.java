@@ -30,7 +30,7 @@ public class UsersServlet extends HttpServlet {
             .filter(cookie -> cookie.getName().equals("sign"))
             .findFirst().get();
     try {
-      String[] split = req.getRequestURI().split("/");
+      String[] split = req.getPathInfo().split("/");
       User user;
       if (split.length >= 2) {
         Optional<User> optionalUser = userService.getUser(Integer.parseInt(split[1]));
@@ -74,7 +74,7 @@ public class UsersServlet extends HttpServlet {
             .get();
     String like = req.getParameter("like");
     String[] split = req.getPathInfo().split("/");
-    if (!userService.relationInteraction(Integer.parseInt(eD.decrypt(sign.getValue())), Integer.parseInt(split[2]), like != null)) {
+    if (!userService.relationInteraction(Integer.parseInt(eD.decrypt(sign.getValue())), Integer.parseInt(split[1]), like != null)) {
       resp.sendRedirect("/liked");
     } else resp.sendRedirect("/users");
   }
