@@ -8,6 +8,7 @@ import java.io.IOException;
 public class UsersFilter implements Filter {
 
   private boolean isPathOk(HttpServletRequest request) {
+    if(request.getPathInfo() == null) return false;
     String[] split = request.getPathInfo().split("/");
     return split.length >= 2 && split[1].matches("[0-9]+");
   }
