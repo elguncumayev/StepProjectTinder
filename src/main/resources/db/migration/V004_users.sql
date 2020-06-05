@@ -1,0 +1,8 @@
+INSERT INTO public.users (username, "e-mail", "workInfo", "lastLogin", "fullName", pass, prof_photo)
+VALUES ('elgun.cumayev', 'e.c-mail.ru', 'Student', '2020-05-03T10:10', 'Elgun Jumayev', '12345', 'https://image.freepik.com/free-vector/man-profile-cartoon_18591-58482.jpg')
+INSERT INTO public.users (username, "e-mail", "workInfo", "lastLogin", "fullName", pass, prof_photo)
+VALUES ('real.sarkhan', 'rs-mail.ru', 'student', '2020-05-03T10:10', 'Real Sarkhanbayli', '23456', 'https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg')
+INSERT INTO public.users (username, "e-mail", "workInfo", "lastLogin", "fullName", pass, prof_photo)
+VALUES ('kate.smith', 'ks-mail.ru', 'Teacher', '2020-05-03T10:10', 'Kate Smith', '34567', 'https://image.freepik.com/free-vector/portrait-african-american-woman-profile-avatar-young-black-girl_102172-418.jpg')
+INSERT INTO public.users (username, "e-mail", "workInfo", "lastLogin", "fullName", pass, prof_photo)
+VALUES ('jane.johnson', 'jj-mail.ru', 'STUdent', '2020-05-03T10:10', 'Jane Johnson', '45678', 'https://img.freepik.com/free-vector/portrait-strong-beautiful-woman-profile-with-blond-hair_102172-425.jpg?size=338&ext=jpg')
