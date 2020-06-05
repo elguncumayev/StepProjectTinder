@@ -35,9 +35,9 @@ public class TinderApp {
     handler.addServlet(new ServletHolder(new LogoutServlet()), "/logout");
     handler.addServlet(new ServletHolder(new RedirectServlet("/login")), "/*");
 
-    handler.addFilter(CookieFilter.class, "/messages", EnumSet.of(DispatcherType.REQUEST));
-    handler.addFilter(CookieFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
-    handler.addFilter(CookieFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
+//    handler.addFilter(CookieFilter.class, "/messages", EnumSet.of(DispatcherType.REQUEST));
+//    handler.addFilter(CookieFilter.class, "/liked", EnumSet.of(DispatcherType.REQUEST));
+//    handler.addFilter(CookieFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
     handler.addFilter(UsersFilter.class,"/users",EnumSet.of(DispatcherType.REQUEST));
     handler.addFilter(MessagesFilter.class,"/messages",EnumSet.of(DispatcherType.REQUEST));
 
