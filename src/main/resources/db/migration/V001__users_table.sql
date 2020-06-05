@@ -3,7 +3,7 @@ create table users
 	id serial not null
 		constraint users_pk
 			primary key,
-	username varchar not null
+	username varchar not null,
 	"e-mail" varchar not null,
 	"workInfo" varchar,
 	"lastLogin" varchar not null,
