@@ -35,7 +35,7 @@ public class MessagesServlet extends HttpServlet {
     }
     String[] split = pathInfo.split("/");
     String idS = split[1];
-    if(!userService.containsRel(Integer.parseInt(eD.decrypt(sign.getValue())),Integer.parseInt(split[2]))){
+    if(!userService.containsRel(Integer.parseInt(eD.decrypt(sign.getValue())),Integer.parseInt(split[1]))){
       try (PrintWriter w = resp.getWriter()) {
         w.write("You can send message when both of you like each other!");
         return;
