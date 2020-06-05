@@ -29,7 +29,7 @@ public class MessagesServlet extends HttpServlet {
             .findFirst()
             .get();
     String[] split = req.getRequestURI().split("/");
-    String idS = split[2];
+    String idS = split[1];
     if (idS == null ) {
       resp.sendRedirect("/liked");
       return;

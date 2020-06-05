@@ -32,8 +32,8 @@ public class UsersServlet extends HttpServlet {
     try {
       String[] split = req.getRequestURI().split("/");
       User user;
-      if (split.length >= 3) {
-        Optional<User> optionalUser = userService.getUser(Integer.parseInt(split[2]));
+      if (split.length >= 2) {
+        Optional<User> optionalUser = userService.getUser(Integer.parseInt(split[1]));
         if (!optionalUser.isPresent()) {
           resp.sendError(404);
           return;

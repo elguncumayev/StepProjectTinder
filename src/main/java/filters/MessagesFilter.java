@@ -9,7 +9,7 @@ public class MessagesFilter implements Filter {
 
   private boolean isPathOk(HttpServletRequest request) {
     String[] split = request.getRequestURI().split("/");
-    return split.length >= 3 && split[2].matches("[0-9]+");
+    return split.length >= 2 && split[1].matches("[0-9]+");
   }
 
   private boolean isHttp(ServletRequest req) {
