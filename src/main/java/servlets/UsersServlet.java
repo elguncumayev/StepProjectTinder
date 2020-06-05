@@ -61,6 +61,7 @@ public class UsersServlet extends HttpServlet {
     } catch (NumberFormatException ex) {
       resp.sendError(404);
     } catch (Exception e) {
+      System.out.println(e.toString());
       resp.sendRedirect("/liked");
     }
   }
