@@ -8,7 +8,7 @@ import java.io.IOException;
 public class MessagesFilter implements Filter {
 
   private boolean isPathOk(HttpServletRequest request) {
-    String[] split = request.getPathInfo().split("/");
+    String[] split = request.getRequestURI().split("/");
     return split.length >= 3 && split[2].matches("[0-9]+");
   }
 
