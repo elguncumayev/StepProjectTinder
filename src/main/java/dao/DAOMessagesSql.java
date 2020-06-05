@@ -6,19 +6,19 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public class DAOMessagesSql implements DAO<Message> {
   private final static String URL = System.getenv("dburi");
   private final static String UNAME = System.getenv("user");
   private final static String PWD = System.getenv("password");
-
+  private final String SELECTALL = "select * from messages m";
   @Override
-  public Collection<Message> getBySQLQuery(String query) {
-
+  public List<Message> getList(String choice) {
     try {
       Connection conn = DriverManager.getConnection(URL, UNAME, PWD);
-      PreparedStatement stmt = conn.prepareStatement(query);
+      PreparedStatement stmt = conn.prepareStatement(String.format("%s %s;",SELECTALL,choice));
       ResultSet rSet = stmt.executeQuery();
       ArrayList<Message> messages = new ArrayList<>();
       while (rSet.next()) {

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
@@ -16,7 +17,6 @@ public class UsersServlet extends HttpServlet {
 
   private final TemplateEngine engine;
   private final UserService userService = new UserService();
-  private int choosesUserId;
 
   public UsersServlet(TemplateEngine engine) {
     this.engine = engine;
@@ -24,22 +24,40 @@ public class UsersServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Optional<Cookie> sign = Arrays.stream(req.getCookies())
+    Cookie sign = Arrays.stream(req.getCookies())
             .filter(cookie -> cookie.getName().equals("sign"))
-            .findFirst();
-    if (!sign.isPresent()) {
-      resp.sendRedirect("/login");
-      return;
-    }
+            .findFirst().get();
     try {
-      User user = userService.randomUser(Integer.parseInt(sign.get().getValue()));
+      String[] split = req.getPathInfo().split("/");
+      User user;
+      if (split.length >= 3) {
+        Optional<User> optionalUser = userService.getUser(Integer.parseInt(split[2]));
+        if (!optionalUser.isPresent()) {
+          resp.sendError(404);
+          return;
+        } else {
+          user = optionalUser.get();
+        }
+      } else {
+        Optional<User> randomUser = userService.randomUser(Integer.parseInt(sign.getValue()));
+        if (!randomUser.isPresent()) {
+          try (PrintWriter w = resp.getWriter()) {
+            w.write("There is not any user in system.");
+            return;
+          }
+        }
+        user = randomUser.get();
+        resp.sendRedirect(String.format("/users/%s",user.getId()));
+        return;
+      }
       HashMap<String, Object> data = new HashMap<>();
-      this.choosesUserId = user.getId();
       String name = user.getFullName();
       String image = user.getPhoto();
-      data.put("username", name);
+      data.put("fullname", name);
       data.put("image", image);
       engine.render("like-page.ftl", data, resp);
+    } catch (NumberFormatException ex) {
+      resp.sendError(404);
     } catch (Exception e) {
       resp.sendRedirect("/liked");
     }
@@ -47,15 +65,13 @@ public class UsersServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Optional<Cookie> sign = Arrays.stream(req.getCookies())
+    Cookie sign = Arrays.stream(req.getCookies())
             .filter(cookie -> cookie.getName().equals("sign"))
-            .findFirst();
-    if (!sign.isPresent()) {
-      resp.sendRedirect("/login");
-      return;
-    }
+            .findFirst()
+            .get();
     String like = req.getParameter("like");
-    if (!userService.relationInteraction(Integer.parseInt(sign.get().getValue()), this.choosesUserId, like != null)) {
+    String[] split = req.getPathInfo().split("/");
+    if (!userService.relationInteraction(Integer.parseInt(sign.getValue()), Integer.parseInt(split[2]), like != null)) {
       resp.sendRedirect("/liked");
     } else resp.sendRedirect("/users");
   }

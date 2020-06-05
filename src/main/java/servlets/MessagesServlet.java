@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Optional;
+import java.io.PrintWriter;
+import java.util.*;
 
 public class MessagesServlet extends HttpServlet {
   private final UserService userService = new UserService();
@@ -24,26 +22,31 @@ public class MessagesServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Optional<Cookie> sign = Arrays.stream(req.getCookies())
+    Cookie sign = Arrays.stream(req.getCookies())
             .filter(cookie -> cookie.getName().equals("sign"))
-            .findFirst();
-    if (!sign.isPresent()) {
-      resp.sendRedirect("/login");
-      return;
-    }
-    String idS = req.getParameter("nf");
-    if (idS == null) {
+            .findFirst()
+            .get();
+    String[] split = req.getPathInfo().split("/");
+    String idS = split[2];
+    if (idS == null ) {
       resp.sendRedirect("/liked");
       return;
     }
+    if(!userService.containsRel(Integer.parseInt(sign.getValue()),Integer.parseInt(split[2]))){
+      try (PrintWriter w = resp.getWriter()) {
+        w.write("You can send message when both of you like each other!");
+        return;
+      }
+    }
+    int id = Integer.parseInt(idS);
     HashMap<String, Object> data = new HashMap<>();
-    User partner = userService.getUserName(idS);
-    if (partner == null) {
+    Optional<User> optionalUser = userService.getUser(id);
+    if (!optionalUser.isPresent()) {
       resp.sendError(404);
       return;
     }
-    int id = Integer.parseInt(idS);
-    ArrayList<Message> messages = userService.getMessages(Integer.parseInt(sign.get().getValue()), id);
+    User partner = optionalUser.get();
+    List<Message> messages = userService.getMessages(Integer.parseInt(sign.getValue()), id);
     StringBuilder sb = new StringBuilder();
     for (Message m : messages) {
       if(m.getFrom() == id){
@@ -78,20 +81,18 @@ public class MessagesServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Optional<Cookie> sign = Arrays.stream(req.getCookies())
+    Cookie sign = Arrays.stream(req.getCookies())
             .filter(cookie -> cookie.getName().equals("sign"))
-            .findFirst();
-    if (!sign.isPresent()) {
-      resp.sendRedirect("/login");
-      return;
-    }
-    String id = req.getParameter("nf");
+            .findFirst()
+            .get();
+    String[] split = req.getPathInfo().split("/");
+    int id = Integer.parseInt(split[2]);
     String text = req.getParameter("message");
     if(text == null || text.matches("[\\s]") || text.isEmpty()) {
-      resp.sendRedirect(String.format("/messages?nf=%s",id));
+      resp.sendRedirect(String.format("/messages/%s",id));
       return;
     }
-    userService.sendMessage(sign.get().getValue(),id,text);
-    resp.sendRedirect(String.format("/messages?nf=%s",id));
+    userService.sendMessage(Integer.parseInt(sign.getValue()),id,text);
+    resp.sendRedirect(String.format("/messages/%s",id));
   }
 }

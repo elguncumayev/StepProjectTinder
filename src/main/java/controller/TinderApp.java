@@ -1,10 +1,16 @@
 package controller;
 
 import dbmigration.DbSetup;
+import filters.CookieFilter;
+import filters.MessagesFilter;
+import filters.UsersFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.*;
+
+import javax.servlet.DispatcherType;
+import java.util.EnumSet;
 
 public class TinderApp {
   public void start() throws Exception {
@@ -27,6 +33,13 @@ public class TinderApp {
     handler.addServlet(new ServletHolder(new MessagesServlet(engine)), "/messages/*");
     handler.addServlet(new ServletHolder(new LoginServlet(engine)), "/login");
     handler.addServlet(new ServletHolder(new RedirectServlet("/login")), "/*");
+
+    handler.addFilter(CookieFilter.class, "/messages", EnumSet.of(DispatcherType.REQUEST));
+    handler.addFilter(CookieFilter.class, "/like", EnumSet.of(DispatcherType.REQUEST));
+    handler.addFilter(CookieFilter.class, "/users", EnumSet.of(DispatcherType.REQUEST));
+    handler.addFilter(UsersFilter.class,"users/*",EnumSet.of(DispatcherType.REQUEST));
+    handler.addFilter(MessagesFilter.class,"messages/*",EnumSet.of(DispatcherType.REQUEST));
+
     server.setHandler(handler);
 
     server.start();

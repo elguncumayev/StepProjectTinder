@@ -37,7 +37,7 @@
 
                                     </td>
                                     <td class="align-middle">
-                                        <a href="/messages?nf=${user.getId()}"> ${user.getFullName()}</a>
+                                        <a href="/messages/${user.getId()}"> ${user.getFullName()}</a>
                                     </td>
                                     <td class="align-middle">
                                         ${user.getWorkInfo()}
