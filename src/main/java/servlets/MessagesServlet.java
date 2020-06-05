@@ -49,7 +49,7 @@ public class MessagesServlet extends HttpServlet {
       return;
     }
     User partner = optionalUser.get();
-    List<Message> messages = userService.getMessages(Integer.parseInt(sign.getValue()), id);
+    List<Message> messages = userService.getMessages(Integer.parseInt(eD.decrypt(sign.getValue())), id);
     StringBuilder sb = new StringBuilder();
     for (Message m : messages) {
       if(m.getFrom() == id){
