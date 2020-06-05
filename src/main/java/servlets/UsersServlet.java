@@ -30,9 +30,10 @@ public class UsersServlet extends HttpServlet {
             .filter(cookie -> cookie.getName().equals("sign"))
             .findFirst().get();
     try {
-      String[] split = req.getPathInfo().split("/");
+      String pathInfo = req.getPathInfo();
       User user;
-      if (split.length >= 2) {
+      if (pathInfo!=null) {
+        String[] split = pathInfo.split("/");
         Optional<User> optionalUser = userService.getUser(Integer.parseInt(split[1]));
         if (!optionalUser.isPresent()) {
           resp.sendError(404);

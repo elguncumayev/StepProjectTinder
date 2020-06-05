@@ -28,12 +28,13 @@ public class MessagesServlet extends HttpServlet {
             .filter(cookie -> cookie.getName().equals("sign"))
             .findFirst()
             .get();
-    String[] split = req.getPathInfo().split("/");
-    String idS = split[1];
-    if (idS == null ) {
+    String pathInfo = req.getPathInfo();
+    if (pathInfo == null ) {
       resp.sendRedirect("/liked");
       return;
     }
+    String[] split = pathInfo.split("/");
+    String idS = split[1];
     if(!userService.containsRel(Integer.parseInt(eD.decrypt(sign.getValue())),Integer.parseInt(split[2]))){
       try (PrintWriter w = resp.getWriter()) {
         w.write("You can send message when both of you like each other!");
