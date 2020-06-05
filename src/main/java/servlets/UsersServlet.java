@@ -1,7 +1,6 @@
 package servlets;
 
 import entity.User;
-import lombok.extern.log4j.Log4j2;
 import services.EncodeDecode;
 import services.UserService;
 
@@ -15,7 +14,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 
-@Log4j2
 public class UsersServlet extends HttpServlet {
 
   private final TemplateEngine engine;
