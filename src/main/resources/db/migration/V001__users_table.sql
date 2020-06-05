@@ -9,7 +9,7 @@ create table users
 	"lastLogin" varchar not null,
 	"fullName" varchar not null,
 	pass varchar not null,
-	prof_photo varchar,
+	prof_photo varchar
 
 );
 
