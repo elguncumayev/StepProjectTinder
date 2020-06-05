@@ -1,6 +1,7 @@
 package servlets;
 
 import entity.User;
+import lombok.extern.log4j.Log4j2;
 import services.EncodeDecode;
 import services.UserService;
 
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 
+@Log4j2
 public class UsersServlet extends HttpServlet {
 
   private final TemplateEngine engine;
@@ -60,12 +62,6 @@ public class UsersServlet extends HttpServlet {
       engine.render("like-page.ftl", data, resp);
     } catch (NumberFormatException ex) {
       resp.sendError(404);
-    } catch (Exception e) {
-      try (PrintWriter w = resp.getWriter()) {
-        w.write(e.getLocalizedMessage());
-        return;
-      }
-      //resp.sendRedirect("/liked");
     }
   }
 
